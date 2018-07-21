@@ -3,11 +3,12 @@ const colors = require('colors')
 const path = require('path')
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 console.log(`>>> mode: ${process.env.NODE_ENV}`.green)
+console.log(`>>> modules: ${config.modules}`.green)
 
 function plugins() {
     switch (process.env.NODE_ENV) {
@@ -35,13 +36,16 @@ module.exports = {
         stats: 'errors-only'
     },
     resolve: {
+        alias: {
+            'vue': 'vue/dist/vue.js'
+        },
         extensions: ['.js', '.vue', '.json']
     },
     entry: {
         index: `./modules/${config.modules}/index.js`
     },
     output: {
-        filename: './index.bundle.js',
+        filename: './js/index.js',
         path: path.resolve(__dirname, `dist/${config.modules}`)
     },
     plugins: [
@@ -49,20 +53,22 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
         }),
-        // new CopyWebpackPlugin([{
-        //     from: `./modules/${config.modules}/img`,
-        //     to: `./img`
-        // }]),
+        new VueLoaderPlugin(),
         new HtmlWebpackPlugin({
             filename: './index.html',
             template: `./modules/${config.modules}/index.html`
         }),
         new ExtractTextPlugin({
-            filename: './index.bundle.css'
+            filename: './css/index.css'
         })
     ],
     module: {
         rules: [
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                exclude: '/node_modules/'
+            },
             {
                 test: /\.js$/,
                 use: ['babel-loader'],
@@ -119,8 +125,7 @@ module.exports = {
                     loader: 'url-loader',
                     options: {
                         limit: 50,
-                        outputPath: 'img',
-                        publicPath: `./img`
+                        outputPath: 'images'
                     }
                 }]
             }
