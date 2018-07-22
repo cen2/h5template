@@ -4,6 +4,7 @@ const colors = require('colors')
 const config = {
   modules: process.env.npm_config_modules || 'demo',
   minimize: true,
+  server: '/api',
   port: '8086',
   host: ip.address()
 }

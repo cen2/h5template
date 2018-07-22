@@ -29,7 +29,17 @@ module.exports = {
     open: false,
     hot: false,
     overlay: true,
-    stats: 'errors-only'
+    stats: 'errors-only',
+    proxy: {
+      '/api': {
+        target: 'https://api.github.com',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
   },
   resolve: {
     alias: {
@@ -47,7 +57,8 @@ module.exports = {
   plugins: [
     ...plugins(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.SERVER_URL': JSON.stringify(config.server)
     }),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
