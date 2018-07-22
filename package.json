@@ -12,9 +12,11 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "better-scroll": "^1.12.5",
     "fastclick": "^1.0.6",
     "jquery": "^3.3.1",
     "js-cookie": "^2.2.0",
+    "moment": "^2.22.2",
     "normalize.css": "^8.0.0",
     "qs": "^6.5.2",
     "vue": "^2.5.16"

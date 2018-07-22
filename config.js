@@ -2,7 +2,7 @@ const ip = require('ip')
 const colors = require('colors')
 
 const config = {
-  modules: process.env.npm_config_modules || 'demo',
+  modules: process.env.npm_config_modules || 'vchat',
   server: '/api',
   minimize: true,
   port: '8086',
