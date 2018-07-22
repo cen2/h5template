@@ -1,7 +1,14 @@
-module.exports = {
+const ip = require('ip')
+const colors = require('colors')
+
+const config = {
+    modules: process.env.npm_config_modules || 'demo',
     minimize: true,
-    // host: '192.168.1.102',
-    host: '172.16.21.204',
     port: '8086',
-    modules: 'demo'
+    host: ip.address()
 }
+
+console.log(`>>> mode: ${process.env.NODE_ENV}`.green)
+console.log(`>>> modules: ${config.modules}`.green)
+
+module.exports = config

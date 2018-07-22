@@ -2,8 +2,8 @@ module.exports = {
     plugins: {
         'autoprefixer': {browsers: 'last 5 version'},
         'postcss-px-to-viewport': {
-            viewportWidth: 380,
-            viewportHeight: 331,
+            viewportWidth: 750,
+            viewportHeight: 1334,
             unitPrecision: 6,
             viewportUnit: 'vw',
             selectorBlackList: ['.ignore'],

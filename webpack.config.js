@@ -1,14 +1,10 @@
 const config = require('./config')
-const colors = require('colors')
 const path = require('path')
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-
-console.log(`>>> mode: ${process.env.NODE_ENV}`.green)
-console.log(`>>> modules: ${config.modules}`.green)
 
 function plugins() {
     switch (process.env.NODE_ENV) {
@@ -42,10 +38,10 @@ module.exports = {
         extensions: ['.js', '.vue', '.json']
     },
     entry: {
-        index: `./modules/${config.modules}/index.js`
+        index: `./src/${config.modules}/index.js`
     },
     output: {
-        filename: './js/index.js',
+        filename: `./js/${config.modules}.js`,
         path: path.resolve(__dirname, `dist/${config.modules}`)
     },
     plugins: [
@@ -56,14 +52,20 @@ module.exports = {
         new VueLoaderPlugin(),
         new HtmlWebpackPlugin({
             filename: './index.html',
-            template: `./modules/${config.modules}/index.html`
+            template: `./src/${config.modules}/index.html`
         }),
         new ExtractTextPlugin({
-            filename: './css/index.css'
+            filename: `./css/${config.modules}.css`
         })
     ],
     module: {
         rules: [
+            {
+                test: /\.(js|vue)$/,
+                use: 'eslint-loader',
+                enforce: 'pre',
+                exclude: /node_modules/
+            },
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
@@ -120,11 +122,12 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|gif|svg)$/,
                 use: [{
                     loader: 'url-loader',
                     options: {
-                        limit: 50,
+                        name: '[hash:8].[name].[ext]',
+                        limit: 3072,
                         outputPath: 'images'
                     }
                 }]

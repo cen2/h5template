@@ -1,10 +1,10 @@
 import 'normalize.css'
 import Vue from 'vue'
-import app from './app'
+import demo from './demo'
 
 Vue.config.productionTip = false
 new Vue({
-    el: '#app',
-    components: {app},
-    template: '<app/>'
+  el: '#app',
+  components: {demo},
+  template: '<demo/>'
 })
