@@ -101,7 +101,8 @@ module.exports = {
             {
               loader: 'postcss-loader'
             }
-          ]
+          ],
+          publicPath: '../'
         })
       },
       {
