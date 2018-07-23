@@ -32,7 +32,7 @@
       </div>
       <div class="tool">
         <span :style="{backgroundImage: photos_png}" class="photos">
-          <input type="file" accept="image/*">
+          <input @change="sendPhotos" type="file" accept="image/*">
         </span>
       </div>
     </div>
@@ -128,6 +128,26 @@
             dateTime: '2018-07-23 16:39'
           }
         ]
+      }
+    },
+    methods: {
+      sendPhotos(evt) {
+        const file = evt.target.files[0]
+        if (FileReader && file && /^image/.test(file.type)) {
+          let reader = new FileReader()
+          reader.readAsDataURL(file)
+          reader.onloadend = event => {
+            this.chatWave.push({
+              type: 1,
+              isSelf: true,
+              avatar_url: head_jpg,
+              name: '霸波儿奔',
+              msg: '',
+              media: event.target.result,
+              dateTime: moment().format('YYYY-MM-DD HH:mm:ss')
+            })
+          }
+        }
       }
     }
   }
